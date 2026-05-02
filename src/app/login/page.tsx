@@ -36,7 +36,7 @@ export default function LoginPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#f6f5f4',
+        background: 'var(--app-bg)',
       }}
     >
       <div
@@ -44,40 +44,23 @@ export default function LoginPage() {
         style={{ padding: '36px 32px', width: '100%', maxWidth: 380 }}
       >
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              background: '#0075de',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-              <rect x="2" y="2" width="5" height="5" rx="1" fill="white" />
-              <rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity="0.7" />
-              <rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity="0.7" />
-              <rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity="0.4" />
-            </svg>
-          </div>
-          <span style={{ fontSize: 18, fontWeight: 700, color: 'rgba(0,0,0,0.95)', letterSpacing: '-0.4px' }}>
-            Mi Notion
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 28 }}>
+          <picture style={{ display: 'flex', alignItems: 'center' }}>
+            <source srcSet="/logoblanco.png" media="(prefers-color-scheme: dark)" />
+            <img src="/logonegro.png" alt="Logo" style={{ height: 40, width: 'auto', objectFit: 'contain' }} />
+          </picture>
         </div>
 
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: 'rgba(0,0,0,0.95)', marginBottom: 6, letterSpacing: '-0.3px' }}>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--app-text)', marginBottom: 6, letterSpacing: '-0.3px' }}>
           Bienvenido de nuevo
         </h1>
-        <p style={{ fontSize: 14, color: '#615d59', marginBottom: 24 }}>
+        <p style={{ fontSize: 14, color: 'var(--app-text-muted)', marginBottom: 24 }}>
           Ingresa tus credenciales para acceder
         </p>
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: 12 }}>
-            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(0,0,0,0.7)', marginBottom: 6 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--app-text-muted)', marginBottom: 6 }}>
               Usuario
             </label>
             <input
@@ -93,7 +76,7 @@ export default function LoginPage() {
           </div>
 
           <div style={{ marginBottom: 16 }}>
-            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(0,0,0,0.7)', marginBottom: 6 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--app-text-muted)', marginBottom: 6 }}>
               Contraseña
             </label>
             <input
@@ -110,7 +93,7 @@ export default function LoginPage() {
           {error && (
             <div style={{
               padding: '8px 12px',
-              background: '#fef2f2',
+              background: 'rgba(220,38,38,0.08)',
               border: '1px solid rgba(220,38,38,0.15)',
               borderRadius: 4,
               fontSize: 13,

@@ -72,6 +72,16 @@ export const contracts = sqliteTable('contracts', {
   updatedAt: text('updated_at').notNull().default(sql`(datetime('now'))`),
 });
 
+export const notes = sqliteTable('notes', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull().default('Sin título'),
+  content: text('content').notNull().default('{}'), // TipTap JSON
+  emoji: text('emoji').notNull().default(''),
+  attachments: text('attachments').notNull().default('[]'), // JSON array de archivos
+  createdAt: text('created_at').notNull().default(sql`(datetime('now'))`),
+  updatedAt: text('updated_at').notNull().default(sql`(datetime('now'))`),
+});
+
 export const contacts = sqliteTable('contacts', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),

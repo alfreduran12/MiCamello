@@ -3,50 +3,40 @@
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import {
-  LayoutDashboard,
-  FolderKanban,
-  GitBranch,
-  CheckSquare,
-  Activity,
-  FileText,
-  Users,
-  UserCog,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  User,
-  Plus,
+  LayoutDashboard, FolderKanban, GitBranch, CheckSquare,
+  Activity, FileText, Users, UserCog, LogOut,
+  ChevronLeft, ChevronRight, User, Plus, NotebookPen,
 } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 export const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'proyectos', label: 'Proyectos', icon: FolderKanban },
-  { id: 'repos', label: 'Repos', icon: GitBranch },
-  { id: 'tareas', label: 'Tareas', icon: CheckSquare },
-  { id: 'actividades', label: 'Actividades', icon: Activity },
-  { id: 'contratos', label: 'Contratos', icon: FileText },
-  { id: 'contactos', label: 'Contactos', icon: Users },
+  { id: 'dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
+  { id: 'notas',        label: 'Notas',         icon: NotebookPen },
+  { id: 'proyectos',    label: 'Proyectos',     icon: FolderKanban },
+  { id: 'repos',        label: 'Repos',         icon: GitBranch },
+  { id: 'tareas',       label: 'Tareas',        icon: CheckSquare },
+  { id: 'actividades',  label: 'Actividades',   icon: Activity },
+  { id: 'contratos',    label: 'Contratos',     icon: FileText },
+  { id: 'contactos',    label: 'Contactos',     icon: Users },
 ];
 
 export const BOTTOM_NAV_ITEMS = [
   { id: 'usuarios', label: 'Usuarios', icon: UserCog },
 ];
 
-// Items que van en la pill principal mobile (4 + FAB central)
 const MOBILE_PRIMARY = [
-  { id: 'dashboard', label: 'Inicio', icon: LayoutDashboard },
-  { id: 'proyectos', label: 'Proyectos', icon: FolderKanban },
-  // FAB goes here (index 2)
-  { id: 'tareas', label: 'Tareas', icon: CheckSquare },
-  { id: 'actividades', label: 'Actividad', icon: Activity },
+  { id: 'dashboard',  label: 'Inicio',    icon: LayoutDashboard },
+  { id: 'notas',      label: 'Notas',     icon: NotebookPen },
+  { id: 'tareas',     label: 'Tareas',    icon: CheckSquare },
+  { id: 'actividades',label: 'Actividad', icon: Activity },
 ];
 
-// Items del drawer del FAB "+"
 const MOBILE_MORE = [
-  { id: 'repos', label: 'Repos', icon: GitBranch },
-  { id: 'contratos', label: 'Contratos', icon: FileText },
-  { id: 'contactos', label: 'Contactos', icon: Users },
-  { id: 'usuarios', label: 'Usuarios', icon: UserCog },
+  { id: 'proyectos',  label: 'Proyectos', icon: FolderKanban },
+  { id: 'repos',      label: 'Repos',     icon: GitBranch },
+  { id: 'contratos',  label: 'Contratos', icon: FileText },
+  { id: 'contactos',  label: 'Contactos', icon: Users },
+  { id: 'usuarios',   label: 'Usuarios',  icon: UserCog },
 ];
 
 interface SidebarProps {
@@ -77,306 +67,231 @@ export default function Sidebar({ activeSection, onNavigate }: SidebarProps) {
   const { data: session } = useSession();
   // @ts-expect-error extra field
   const username: string = session?.user?.username ?? session?.user?.name ?? '…';
-
   const handleLogout = () => signOut({ callbackUrl: '/login' });
+  const handleNavigate = (id: string) => { onNavigate(id); setMoreOpen(false); };
 
-  const handleNavigate = (id: string) => {
-    onNavigate(id);
-    setMoreOpen(false);
-  };
-
-  // ── Mobile: floating pill + FAB + bottom drawer ──
+  /* ── Mobile pill nav ──────────────────────────────────────────────────── */
   if (screenSize === 'mobile') {
     const moreIsActive = MOBILE_MORE.some(i => i.id === activeSection);
-
     return (
       <>
-        {/* Pill nav — 4 items + FAB central */}
-        <nav
-          style={{
-            position: 'fixed',
-            bottom: 'calc(16px + env(safe-area-inset-bottom))',
-            left: 16,
-            right: 16,
-            height: 64,
-            background: 'white',
-            borderRadius: 32,
-            boxShadow: '0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)',
-            display: 'flex',
-            alignItems: 'center',
-            zIndex: 50,
-            paddingLeft: 4,
-            paddingRight: 4,
-          }}
-        >
-          {/* Izquierda: Dashboard, Proyectos */}
+        {/* Pill */}
+        <nav style={{
+          position: 'fixed',
+          bottom: 'calc(14px + env(safe-area-inset-bottom))',
+          left: 14, right: 14, height: 62,
+          background: 'var(--app-surface)',
+          border: '1px solid var(--app-border)',
+          borderRadius: 32,
+          boxShadow: 'none',
+          display: 'flex', alignItems: 'center',
+          zIndex: 50, paddingLeft: 4, paddingRight: 4,
+        }}>
           {MOBILE_PRIMARY.slice(0, 2).map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => handleNavigate(id)}
-              style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-                padding: '6px 0', background: 'none', border: 'none', cursor: 'pointer',
-                color: activeSection === id ? '#0075de' : '#a39e98',
-                transition: 'color 0.15s ease', flex: 1,
-              }}
-            >
-              <Icon size={21} strokeWidth={activeSection === id ? 2.2 : 1.7} />
-              <span style={{ fontSize: 10, fontWeight: activeSection === id ? 700 : 500 }}>{label}</span>
+            <button key={id} onClick={() => handleNavigate(id)} style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+              padding: '6px 0', background: 'none', border: 'none', cursor: 'pointer',
+              color: activeSection === id ? 'var(--app-text)' : 'var(--app-text-subtle)',
+              transition: 'color 0.15s', flex: 1,
+            }}>
+              <Icon size={20} strokeWidth={activeSection === id ? 2.2 : 1.7} />
+              <span style={{ fontSize: 9.5, fontWeight: activeSection === id ? 700 : 500 }}>{label}</span>
             </button>
           ))}
 
-          {/* FAB central */}
-          <div style={{ flex: '0 0 68px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <button
-              onClick={() => setMoreOpen(v => !v)}
-              style={{
-                width: 52, height: 52, borderRadius: '50%',
-                background: moreIsActive || moreOpen ? '#0075de' : 'rgba(0,0,0,0.88)',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 2px 14px rgba(0,0,0,0.22)',
-                color: 'white',
-                transition: 'transform 0.22s ease, background 0.2s ease',
-                transform: moreOpen ? 'rotate(45deg)' : 'none',
-                marginBottom: 18,
-              }}
-            >
-              <Plus size={22} strokeWidth={2.2} />
+          {/* FAB */}
+          <div style={{ flex: '0 0 66px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <button onClick={() => setMoreOpen(v => !v)} style={{
+              width: 50, height: 50, borderRadius: '50%',
+              background: moreIsActive || moreOpen ? 'var(--app-accent)' : 'var(--app-accent)',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: 'none',
+              color: 'var(--app-accent-fg)',
+              transition: 'transform 0.22s ease',
+              transform: moreOpen ? 'rotate(45deg)' : 'none',
+              marginBottom: 16,
+            }}>
+              <Plus size={21} strokeWidth={2.2} />
             </button>
           </div>
 
-          {/* Derecha: Tareas, Actividades */}
           {MOBILE_PRIMARY.slice(2).map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => handleNavigate(id)}
-              style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-                padding: '6px 0', background: 'none', border: 'none', cursor: 'pointer',
-                color: activeSection === id ? '#0075de' : '#a39e98',
-                transition: 'color 0.15s ease', flex: 1,
-              }}
-            >
-              <Icon size={21} strokeWidth={activeSection === id ? 2.2 : 1.7} />
-              <span style={{ fontSize: 10, fontWeight: activeSection === id ? 700 : 500 }}>{label}</span>
+            <button key={id} onClick={() => handleNavigate(id)} style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+              padding: '6px 0', background: 'none', border: 'none', cursor: 'pointer',
+              color: activeSection === id ? 'var(--app-text)' : 'var(--app-text-subtle)',
+              transition: 'color 0.15s', flex: 1,
+            }}>
+              <Icon size={20} strokeWidth={activeSection === id ? 2.2 : 1.7} />
+              <span style={{ fontSize: 9.5, fontWeight: activeSection === id ? 700 : 500 }}>{label}</span>
             </button>
           ))}
         </nav>
 
         {/* Backdrop */}
         {moreOpen && (
-          <div
-            onClick={() => setMoreOpen(false)}
-            style={{
-              position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.30)',
-              zIndex: 48, backdropFilter: 'blur(3px)',
-            }}
-          />
+          <div onClick={() => setMoreOpen(false)} style={{
+            position: 'fixed', inset: 0,
+            background: 'oklch(0 0 0 / 0.4)',
+            zIndex: 48, backdropFilter: 'blur(3px)',
+          }} />
         )}
 
-        {/* Bottom sheet FAB */}
-        <div
-          style={{
-            position: 'fixed', left: 0, right: 0,
-            bottom: moreOpen ? 0 : '-100%',
-            background: 'white',
-            borderRadius: '20px 20px 0 0',
-            zIndex: 49,
-            paddingBottom: 'calc(96px + env(safe-area-inset-bottom))',
-            boxShadow: '0 -4px 30px rgba(0,0,0,0.10)',
-            transition: 'bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
-          }}
-        >
-          {/* Handle */}
+        {/* Bottom sheet */}
+        <div style={{
+          position: 'fixed', left: 0, right: 0,
+          bottom: moreOpen ? 0 : '-100%',
+          background: 'var(--app-surface)',
+          borderTop: '1px solid var(--app-border)',
+          borderRadius: '18px 18px 0 0',
+          zIndex: 49,
+          paddingBottom: 'calc(90px + env(safe-area-inset-bottom))',
+          boxShadow: 'none',
+          transition: 'bottom 0.3s cubic-bezier(0.32,0.72,0,1)',
+        }}>
           <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0 8px' }}>
-            <div style={{ width: 36, height: 4, borderRadius: 2, background: 'rgba(0,0,0,0.10)' }} />
+            <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--app-border)' }} />
           </div>
-
-          {/* Items */}
           {MOBILE_MORE.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => handleNavigate(id)}
-              style={{
-                width: '100%', display: 'flex', alignItems: 'center', gap: 14,
-                padding: '14px 24px',
-                background: activeSection === id ? 'rgba(0,117,222,0.06)' : 'none',
-                border: 'none', cursor: 'pointer',
-                color: activeSection === id ? '#0075de' : 'rgba(0,0,0,0.85)',
-                fontSize: 15, fontWeight: activeSection === id ? 600 : 400, textAlign: 'left',
-              }}
-            >
-              <Icon size={20} strokeWidth={activeSection === id ? 2.2 : 1.7} />
+            <button key={id} onClick={() => handleNavigate(id)} style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 14,
+              padding: '13px 22px',
+              background: activeSection === id ? 'var(--app-surface-hover)' : 'none',
+              border: 'none', cursor: 'pointer',
+              color: activeSection === id ? 'var(--app-text)' : 'var(--app-text-muted)',
+              fontSize: 14.5, fontWeight: activeSection === id ? 600 : 400, textAlign: 'left',
+            }}>
+              <Icon size={19} strokeWidth={activeSection === id ? 2.2 : 1.7} />
               {label}
             </button>
           ))}
-
         </div>
       </>
     );
   }
 
-  // ── Tablet / Desktop ──
+  /* ── Tablet / Desktop ─────────────────────────────────────────────────── */
   const isIconOnly = screenSize === 'tablet' || collapsed;
 
   return (
-    <aside
-      style={{
-        width: isIconOnly ? 56 : 220,
-        minWidth: isIconOnly ? 56 : 220,
-        background: '#f6f5f4',
-        borderRight: '1px solid rgba(0,0,0,0.1)',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        transition: 'width 0.2s ease, min-width 0.2s ease',
-        overflow: 'hidden',
-        flexShrink: 0,
-      }}
-    >
+    <aside style={{
+      width: isIconOnly ? 54 : 216,
+      minWidth: isIconOnly ? 54 : 216,
+      background: 'var(--app-sidebar)',
+      borderRight: '1px solid var(--app-border)',
+      display: 'flex', flexDirection: 'column',
+      height: '100vh',
+      transition: 'width 0.2s ease, min-width 0.2s ease',
+      overflow: 'hidden', flexShrink: 0,
+    }}>
       {/* Logo */}
-      <div
-        style={{
-          padding: isIconOnly ? '16px 14px' : '16px 16px',
-          borderBottom: '1px solid rgba(0,0,0,0.08)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          overflow: 'hidden',
-          minHeight: 56,
-        }}
-      >
-        <div
-          style={{
-            width: 28, height: 28, borderRadius: 6, background: '#0075de',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="2" width="5" height="5" rx="1" fill="white" />
-            <rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity="0.7" />
-            <rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity="0.7" />
-            <rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity="0.4" />
-          </svg>
-        </div>
-        {!isIconOnly && (
-          <span style={{ fontSize: 15, fontWeight: 700, color: 'rgba(0,0,0,0.9)', letterSpacing: '-0.3px', whiteSpace: 'nowrap' }}>
-            Mi Notion
-          </span>
-        )}
+      <div style={{
+        padding: isIconOnly ? '15px 13px' : '15px 14px',
+        borderBottom: '1px solid var(--app-border)',
+        display: 'flex', alignItems: 'center', gap: 9,
+        overflow: 'hidden', minHeight: 54,
+      }}>
+        <picture style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          <source srcSet="/logoblanco.png" media="(prefers-color-scheme: dark)" />
+          <img
+            src="/logonegro.png"
+            alt="Logo"
+            style={{ height: isIconOnly ? 26 : 30, width: 'auto', objectFit: 'contain' }}
+          />
+        </picture>
+        {!isIconOnly && <ThemeToggle compact />}
       </div>
 
-      {/* Nav principal */}
-      <nav style={{ flex: 1, padding: '8px 6px', overflowY: 'auto' }}>
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: '6px 5px', overflowY: 'auto' }}>
         {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            onClick={() => onNavigate(id)}
+          <button key={id} onClick={() => onNavigate(id)}
             className={`sidebar-item ${activeSection === id ? 'active' : ''}`}
             style={{
               width: '100%', border: 'none', background: 'none',
               justifyContent: isIconOnly ? 'center' : 'flex-start',
-              padding: isIconOnly ? '8px 6px' : '6px 10px',
-              marginBottom: 2,
+              padding: isIconOnly ? '8px 6px' : '6px 10px', marginBottom: 1,
             }}
             title={isIconOnly ? label : undefined}
           >
-            <Icon size={16} style={{ flexShrink: 0 }} />
+            <Icon size={15} style={{ flexShrink: 0 }} />
             {!isIconOnly && <span>{label}</span>}
           </button>
         ))}
       </nav>
 
-      {/* Sección inferior */}
-      <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>
-        <div style={{ padding: '6px 6px 2px' }}>
+      {/* Bottom */}
+      <div style={{ borderTop: '1px solid var(--app-border)' }}>
+        <div style={{ padding: '5px 5px 2px' }}>
           {BOTTOM_NAV_ITEMS.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => onNavigate(id)}
+            <button key={id} onClick={() => onNavigate(id)}
               className={`sidebar-item ${activeSection === id ? 'active' : ''}`}
               style={{
                 width: '100%', border: 'none', background: 'none',
                 justifyContent: isIconOnly ? 'center' : 'flex-start',
-                padding: isIconOnly ? '8px 6px' : '6px 10px',
-                marginBottom: 2,
+                padding: isIconOnly ? '8px 6px' : '6px 10px', marginBottom: 1,
               }}
               title={isIconOnly ? label : undefined}
             >
-              <Icon size={16} style={{ flexShrink: 0 }} />
+              <Icon size={15} style={{ flexShrink: 0 }} />
               {!isIconOnly && <span>{label}</span>}
             </button>
           ))}
         </div>
 
-        {/* Usuario + logout */}
-        <div
-          style={{
-            margin: '2px 6px 6px',
-            padding: isIconOnly ? '8px 6px' : '8px 10px',
-            borderRadius: 6,
-            background: 'rgba(0,0,0,0.03)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: isIconOnly ? 0 : 8,
-            justifyContent: isIconOnly ? 'center' : 'space-between',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, overflow: 'hidden', minWidth: 0 }}>
+        {/* User row */}
+        <div style={{
+          margin: '2px 5px 5px',
+          padding: isIconOnly ? '7px 5px' : '7px 9px',
+          borderRadius: 6, background: 'var(--app-surface-hover)',
+          display: 'flex', alignItems: 'center',
+          gap: isIconOnly ? 0 : 8,
+          justifyContent: isIconOnly ? 'center' : 'space-between',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, overflow: 'hidden', minWidth: 0 }}>
             <div style={{
-              width: 24, height: 24, borderRadius: '50%', background: '#0075de',
+              width: 22, height: 22, borderRadius: '50%',
+              background: 'var(--app-accent)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}>
-              <User size={13} color="white" />
+              <User size={12} color="var(--app-accent-fg)" />
             </div>
             {!isIconOnly && (
-              <span style={{
-                fontSize: 12, fontWeight: 600, color: 'rgba(0,0,0,0.75)',
-                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-              }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--app-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {username}
               </span>
             )}
           </div>
-          <button
-            onClick={handleLogout}
-            title="Cerrar sesión"
-            style={{
-              padding: '4px 5px', border: 'none', background: 'none',
-              cursor: 'pointer', color: '#a39e98', display: 'flex',
-              alignItems: 'center', borderRadius: 4, flexShrink: 0,
-              transition: 'color 0.15s ease, background 0.15s ease',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
-              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(220,38,38,0.06)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.color = '#a39e98';
-              (e.currentTarget as HTMLButtonElement).style.background = 'none';
-            }}
+          <button onClick={handleLogout} title="Cerrar sesión" style={{
+            padding: '3px 4px', border: 'none', background: 'none',
+            cursor: 'pointer', color: 'var(--app-text-subtle)',
+            display: 'flex', alignItems: 'center', borderRadius: 4, flexShrink: 0,
+          }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'oklch(0.577 0.245 27.325)'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--app-text-subtle)'}
           >
-            <LogOut size={14} />
+            <LogOut size={13} />
           </button>
         </div>
 
-        {/* Collapse — solo desktop */}
+        {/* Collapse */}
         {screenSize === 'desktop' && (
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              width: 'calc(100% - 12px)', margin: '0 6px 6px',
-              padding: '5px 6px', border: '1px solid rgba(0,0,0,0.08)',
-              borderRadius: 5, background: 'white', cursor: 'pointer',
-              display: 'flex', alignItems: 'center',
-              justifyContent: isIconOnly ? 'center' : 'flex-start',
-              color: '#615d59',
-            }}
+          <button onClick={() => setCollapsed(!collapsed)} style={{
+            width: 'calc(100% - 10px)', margin: '0 5px 5px',
+            padding: '5px 5px', border: '1px solid var(--app-border)',
+            borderRadius: 5, background: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center',
+            justifyContent: isIconOnly ? 'center' : 'flex-start',
+            color: 'var(--app-text-muted)', fontSize: 12,
+            transition: 'background 0.1s',
+          }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'var(--app-surface-hover)'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'none'}
             title={collapsed ? 'Expandir' : 'Colapsar'}
           >
-            {collapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
-            {!isIconOnly && <span style={{ marginLeft: 7, fontSize: 12 }}>Colapsar</span>}
+            {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+            {!isIconOnly && <span style={{ marginLeft: 6 }}>Colapsar</span>}
           </button>
         )}
       </div>

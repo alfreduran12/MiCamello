@@ -57,32 +57,40 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
     <div className="page-enter page-padding" style={{ overflow: 'auto', height: '100%' }}>
       {/* Welcome */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-          <h2 style={{ fontSize: isMobile ? 20 : 22, fontWeight: 700, color: 'rgba(0,0,0,0.95)', letterSpacing: '-0.4px', marginBottom: 4 }}>
-            Bienvenido a tu workspace
-          </h2>
-          {/* User pill — solo mobile */}
-          {isMobile && username && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 5,
-              padding: '4px 8px 4px 4px', borderRadius: 20,
-              background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.07)',
-              flexShrink: 0,
-            }}>
-              <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#0075de', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={11} color="white" />
+        {/* Fila logo + admin (solo mobile) */}
+        {isMobile && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <picture style={{ display: 'flex', alignItems: 'center' }}>
+              <source srcSet="/logoblanco.png" media="(prefers-color-scheme: dark)" />
+              <img src="/logonegro.png" alt="Logo" style={{ height: 34, width: 'auto', objectFit: 'contain' }} />
+            </picture>
+            {username && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 5,
+                padding: '4px 8px 4px 4px', borderRadius: 20,
+                background: 'var(--app-surface-hover)', border: '1px solid var(--app-border)',
+                flexShrink: 0,
+              }}>
+                <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--app-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <User size={11} color="var(--app-accent-fg)" />
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--app-text-muted)', maxWidth: 56, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {username}
+                </span>
+                <button onClick={() => signOut({ callbackUrl: '/login' })} title="Cerrar sesión"
+                  style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', color: 'var(--app-text-subtle)', display: 'flex', lineHeight: 1 }}>
+                  <LogOut size={11} />
+                </button>
               </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(0,0,0,0.7)', maxWidth: 56, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {username}
-              </span>
-              <button onClick={() => signOut({ callbackUrl: '/login' })} title="Cerrar sesión"
-                style={{ padding: 0, border: 'none', background: 'none', cursor: 'pointer', color: '#b0aba5', display: 'flex', lineHeight: 1 }}>
-                <LogOut size={11} />
-              </button>
-            </div>
-          )}
+            )}
+          </div>
+        )}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+          <h2 style={{ fontSize: isMobile ? 20 : 22, fontWeight: 700, color: 'var(--app-text)', letterSpacing: '-0.4px', marginBottom: 4 }}>
+            {isMobile ? 'Workspace' : 'Bienvenido a tu workspace'}
+          </h2>
         </div>
-        <p style={{ fontSize: 14, color: '#615d59' }}>
+        <p style={{ fontSize: 14, color: 'var(--app-text-muted)' }}>
           {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
         </p>
       </div>
@@ -99,7 +107,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               display: 'flex',
               alignItems: 'center',
               gap: 14,
-              background: 'white',
+              background: 'var(--app-surface)',
               border: 'none',
               cursor: 'pointer',
               textAlign: 'left',
@@ -121,10 +129,10 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               <Icon size={18} style={{ color }} />
             </div>
             <div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: 'rgba(0,0,0,0.95)', lineHeight: 1.2 }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--app-text)', lineHeight: 1.2 }}>
                 {value}
               </div>
-              <div style={{ fontSize: 12, color: '#615d59', marginTop: 1 }}>{label}</div>
+              <div style={{ fontSize: 12, color: 'var(--app-text-muted)', marginTop: 1 }}>{label}</div>
             </div>
           </button>
         ))}
@@ -136,7 +144,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
           className="notion-card"
           style={{
             padding: '12px 16px',
-            background: '#f2f9ff',
+            background: 'rgba(0,117,222,0.07)',
             marginBottom: 16,
             display: 'flex',
             alignItems: 'center',
@@ -147,7 +155,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
             <div style={{ fontSize: 12, fontWeight: 600, color: '#097fe8', marginBottom: 2 }}>
               VALOR EN CONTRATOS ACTIVOS
             </div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: 'rgba(0,0,0,0.95)', letterSpacing: '-0.5px' }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--app-text)', letterSpacing: '-0.5px' }}>
               ${totalContractValue.toLocaleString('es-ES')}
             </div>
           </div>
@@ -160,12 +168,12 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
       <div style={{ display: 'grid', gridTemplateColumns: isNarrow ? '1fr' : '1fr 1fr', gap: isNarrow ? 12 : 16 }}>
         {/* Upcoming tasks */}
         <div className="notion-card" style={{ padding: '0' }}>
-          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'rgba(0,0,0,0.9)' }}>Tareas próximas</h3>
+          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid var(--app-border)' }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--app-text)' }}>Tareas próximas</h3>
           </div>
           <div>
             {upcomingTasks.length === 0 ? (
-              <div style={{ padding: '20px 16px', fontSize: 13, color: '#a39e98', textAlign: 'center' }}>
+              <div style={{ padding: '20px 16px', fontSize: 13, color: 'var(--app-text-subtle)', textAlign: 'center' }}>
                 Sin tareas pendientes
               </div>
             ) : (
@@ -176,7 +184,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     key={task.id}
                     style={{
                       padding: '10px 16px',
-                      borderBottom: '1px solid rgba(0,0,0,0.04)',
+                      borderBottom: '1px solid var(--app-border)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 10,
@@ -184,11 +192,11 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                   >
                     <input type="checkbox" className="notion-checkbox" checked={task.completed} readOnly />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(0,0,0,0.9)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--app-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {task.title}
                       </div>
                       {task.dueDate && (
-                        <div style={{ fontSize: 11, color: '#a39e98', marginTop: 1 }}>{formatDate(task.dueDate)}</div>
+                        <div style={{ fontSize: 11, color: 'var(--app-text-subtle)', marginTop: 1 }}>{formatDate(task.dueDate)}</div>
                       )}
                     </div>
                     <Badge label={s.label} bg={s.bg} text={s.text} size="sm" />
@@ -201,12 +209,12 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
 
         {/* Recent activities */}
         <div className="notion-card" style={{ padding: '0' }}>
-          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'rgba(0,0,0,0.9)' }}>Actividad reciente</h3>
+          <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid var(--app-border)' }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--app-text)' }}>Actividad reciente</h3>
           </div>
           <div>
             {recentActivities.length === 0 ? (
-              <div style={{ padding: '20px 16px', fontSize: 13, color: '#a39e98', textAlign: 'center' }}>
+              <div style={{ padding: '20px 16px', fontSize: 13, color: 'var(--app-text-subtle)', textAlign: 'center' }}>
                 Sin actividades registradas
               </div>
             ) : (
@@ -217,18 +225,18 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     key={act.id}
                     style={{
                       padding: '10px 16px',
-                      borderBottom: '1px solid rgba(0,0,0,0.04)',
+                      borderBottom: '1px solid var(--app-border)',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(0,0,0,0.9)', flex: 1, marginRight: 8 }}>
+                      <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--app-text)', flex: 1, marginRight: 8 }}>
                         {act.description}
                       </div>
                       <span
                         style={{
                           fontSize: 11,
-                          color: '#097fe8',
-                          background: '#f2f9ff',
+                          color: '#0075de',
+                          background: 'rgba(0,117,222,0.12)',
                           padding: '1px 6px',
                           borderRadius: 9999,
                           fontWeight: 600,
@@ -238,7 +246,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                         {act.duration}m
                       </span>
                     </div>
-                    <div style={{ fontSize: 11, color: '#a39e98', marginTop: 2 }}>
+                    <div style={{ fontSize: 11, color: 'var(--app-text-subtle)', marginTop: 2 }}>
                       {project ? project.name : ''} · {formatDate(act.date)}
                     </div>
                   </div>
