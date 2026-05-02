@@ -112,7 +112,7 @@ export default function Tareas() {
 
       <div className="page-padding" style={{ flex: 1, overflow: 'auto' }}>
         {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a39e98' }}>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--app-text-subtle)' }}>
             <p style={{ fontSize: 15 }}>No hay tareas{search ? ' que coincidan' : '. Crea la primera'}</p>
           </div>
         ) : (
@@ -129,7 +129,7 @@ export default function Tareas() {
                     alignItems: 'center',
                     gap: 12,
                     padding: '12px 16px',
-                    borderBottom: idx < filtered.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none',
+                    borderBottom: idx < filtered.length - 1 ? '1px solid var(--app-border)' : 'none',
                     opacity: task.completed ? 0.6 : 1,
                   }}
                 >
@@ -145,7 +145,7 @@ export default function Tareas() {
                         style={{
                           fontSize: 14,
                           fontWeight: 500,
-                          color: 'rgba(0,0,0,0.9)',
+                          color: 'var(--app-text)',
                           textDecoration: task.completed ? 'line-through' : 'none',
                         }}
                       >
@@ -154,17 +154,17 @@ export default function Tareas() {
                       <Badge label={p.label} bg={p.bg} text={p.text} size="sm" />
                     </div>
                     {task.description && (
-                      <p style={{ fontSize: 12, color: '#a39e98', marginTop: 2 }}>{task.description}</p>
+                      <p style={{ fontSize: 12, color: 'var(--app-text-subtle)', marginTop: 2 }}>{task.description}</p>
                     )}
                     <div style={{ display: 'flex', gap: 8, marginTop: 4, flexWrap: 'wrap', alignItems: 'center' }}>
                       <Badge label={s.label} bg={s.bg} text={s.text} size="sm" />
                       {project && (
-                        <span style={{ fontSize: 11, color: '#0075de', background: '#f2f9ff', padding: '1px 6px', borderRadius: 9999 }}>
+                        <span style={{ fontSize: 11, color: '#0075de', background: 'rgba(0,117,222,0.12)', padding: '1px 6px', borderRadius: 9999 }}>
                           {project.name}
                         </span>
                       )}
                       {task.dueDate && (
-                        <span style={{ fontSize: 11, color: '#a39e98' }}>{formatDate(task.dueDate)}</span>
+                        <span style={{ fontSize: 11, color: 'var(--app-text-subtle)' }}>{formatDate(task.dueDate)}</span>
                       )}
                     </div>
                   </div>

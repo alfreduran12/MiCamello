@@ -11,6 +11,7 @@ import Actividades from '@/sections/Actividades';
 import Contratos from '@/sections/Contratos';
 import Contactos from '@/sections/Contactos';
 import Usuarios from '@/sections/Usuarios';
+import Notas from '@/sections/Notas';
 
 const PAGE_TITLES: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -43,6 +44,7 @@ function WorkspaceApp() {
       case 'contratos': return <Contratos />;
       case 'contactos': return <Contactos />;
       case 'usuarios': return <Usuarios />;
+      case 'notas': return <Notas />;
       default: return <Dashboard onNavigate={setActiveSection} />;
     }
   };
@@ -57,7 +59,7 @@ function WorkspaceApp() {
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          background: '#ffffff',
+          background: 'var(--app-bg)',
           paddingBottom: isMobile ? 88 : 0,
         }}
       >

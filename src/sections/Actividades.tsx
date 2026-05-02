@@ -13,14 +13,14 @@ import { Plus, Pencil, Trash2, Clock } from 'lucide-react';
 const ACTIVITY_TYPES = ['desarrollo', 'reunión', 'diseño', 'revisión', 'documentación', 'deploy', 'investigación', 'otro'];
 
 const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
-  desarrollo: { bg: '#f2f9ff', text: '#097fe8' },
-  'reunión': { bg: '#fef9f0', text: '#c2410c' },
-  diseño: { bg: '#fdf4ff', text: '#7c3aed' },
-  revisión: { bg: '#f0fdf4', text: '#16a34a' },
-  documentación: { bg: '#f6f5f4', text: '#615d59' },
-  deploy: { bg: '#fefce8', text: '#ca8a04' },
-  investigación: { bg: '#f0f9ff', text: '#0369a1' },
-  otro: { bg: '#f6f5f4', text: '#a39e98' },
+  desarrollo: { bg: 'rgba(0,117,222,0.12)', text: '#097fe8' },
+  'reunión': { bg: 'rgba(194,65,12,0.12)', text: '#c2410c' },
+  diseño: { bg: 'rgba(124,58,237,0.12)', text: '#7c3aed' },
+  revisión: { bg: 'rgba(22,163,74,0.12)', text: '#16a34a' },
+  documentación: { bg: 'rgba(97,93,89,0.12)', text: '#97938f' },
+  deploy: { bg: 'rgba(202,138,4,0.12)', text: '#ca8a04' },
+  investigación: { bg: 'rgba(3,105,161,0.12)', text: '#0369a1' },
+  otro: { bg: 'rgba(97,93,89,0.08)', text: '#97938f' },
 };
 
 function ActivityForm({ initial, onSubmit, onClose }: {
@@ -114,13 +114,13 @@ export default function Actividades() {
 
       <div className="page-padding" style={{ flex: 1, overflow: 'auto' }}>
         {Object.keys(grouped).length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a39e98' }}>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--app-text-subtle)' }}>
             <p style={{ fontSize: 15 }}>No hay actividades{search ? ' que coincidan' : '. Registra la primera'}</p>
           </div>
         ) : (
           Object.entries(grouped).map(([dateStr, acts]) => (
             <div key={dateStr} style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#a39e98', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--app-text-subtle)', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: 8 }}>
                 {dateStr} · {formatDuration(acts.reduce((s, a) => s + a.duration, 0))}
               </div>
               <div className="notion-card" style={{ overflow: 'hidden' }}>
@@ -135,7 +135,7 @@ export default function Actividades() {
                         alignItems: 'center',
                         gap: 12,
                         padding: '12px 16px',
-                        borderBottom: idx < acts.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none',
+                        borderBottom: idx < acts.length - 1 ? '1px solid var(--app-border)' : 'none',
                       }}
                     >
                       <div
@@ -148,20 +148,20 @@ export default function Actividades() {
                         }}
                       />
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(0,0,0,0.9)' }}>{act.description}</div>
+                        <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--app-text)' }}>{act.description}</div>
                         <div style={{ display: 'flex', gap: 8, marginTop: 3, alignItems: 'center' }}>
                           <span style={{ fontSize: 11, color: typeStyle.text, background: typeStyle.bg, padding: '1px 7px', borderRadius: 9999, fontWeight: 600 }}>
                             {act.type}
                           </span>
                           {project && (
-                            <span style={{ fontSize: 11, color: '#0075de', background: '#f2f9ff', padding: '1px 7px', borderRadius: 9999 }}>
+                            <span style={{ fontSize: 11, color: '#0075de', background: 'rgba(0,117,222,0.12)', padding: '1px 7px', borderRadius: 9999 }}>
                               {project.name}
                             </span>
                           )}
                         </div>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#615d59', fontWeight: 500 }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: 'var(--app-text-muted)', fontWeight: 500 }}>
                           <Clock size={12} /> {formatDuration(act.duration)}
                         </span>
                         <button className="btn-ghost" onClick={() => openEdit(act)} style={{ padding: '3px 6px' }}><Pencil size={13} /></button>

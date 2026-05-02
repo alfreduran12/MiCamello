@@ -110,7 +110,7 @@ export default function Contactos() {
 
       <div className="page-padding" style={{ flex: 1, overflow: 'auto' }}>
         {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a39e98' }}>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--app-text-subtle)' }}>
             <p style={{ fontSize: 15 }}>No hay contactos{search ? ' que coincidan' : '. Agrega el primero'}</p>
           </div>
         ) : (
@@ -122,9 +122,9 @@ export default function Contactos() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: 'rgba(0,0,0,0.95)' }}>{contact.name}</div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--app-text)' }}>{contact.name}</div>
                         {contact.role && (
-                          <div style={{ fontSize: 12, color: '#615d59', marginTop: 1 }}>{contact.role}</div>
+                          <div style={{ fontSize: 12, color: 'var(--app-text-muted)', marginTop: 1 }}>{contact.role}</div>
                         )}
                       </div>
                       <div style={{ display: 'flex', gap: 2 }}>
@@ -135,14 +135,14 @@ export default function Contactos() {
 
                     {contact.company && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 6 }}>
-                        <Building2 size={11} style={{ color: '#a39e98' }} />
-                        <span style={{ fontSize: 12, color: '#615d59' }}>{contact.company}</span>
+                        <Building2 size={11} style={{ color: 'var(--app-text-subtle)' }} />
+                        <span style={{ fontSize: 12, color: 'var(--app-text-muted)' }}>{contact.company}</span>
                       </div>
                     )}
 
                     {contact.email && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 3 }}>
-                        <Mail size={11} style={{ color: '#a39e98' }} />
+                        <Mail size={11} style={{ color: 'var(--app-text-subtle)' }} />
                         <a href={`mailto:${contact.email}`} style={{ fontSize: 12, color: '#0075de', textDecoration: 'none' }}>
                           {contact.email}
                         </a>
@@ -151,8 +151,8 @@ export default function Contactos() {
 
                     {contact.phone && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 3 }}>
-                        <Phone size={11} style={{ color: '#a39e98' }} />
-                        <span style={{ fontSize: 12, color: '#615d59' }}>{contact.phone}</span>
+                        <Phone size={11} style={{ color: 'var(--app-text-subtle)' }} />
+                        <span style={{ fontSize: 12, color: 'var(--app-text-muted)' }}>{contact.phone}</span>
                       </div>
                     )}
 
@@ -161,7 +161,7 @@ export default function Contactos() {
                         {contact.tags.map(tag => (
                           <span
                             key={tag}
-                            style={{ fontSize: 11, color: '#615d59', background: '#f6f5f4', padding: '1px 6px', borderRadius: 9999, fontWeight: 500 }}
+                            style={{ fontSize: 11, color: 'var(--app-text-muted)', background: 'var(--app-surface-hover)', padding: '1px 6px', borderRadius: 9999, fontWeight: 500 }}
                           >
                             {tag}
                           </span>
@@ -170,7 +170,7 @@ export default function Contactos() {
                     )}
 
                     {contact.notes && (
-                      <p style={{ fontSize: 11, color: '#a39e98', marginTop: 6, lineHeight: 1.4 }}>{contact.notes}</p>
+                      <p style={{ fontSize: 11, color: 'var(--app-text-subtle)', marginTop: 6, lineHeight: 1.4 }}>{contact.notes}</p>
                     )}
                   </div>
                 </div>

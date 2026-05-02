@@ -106,7 +106,7 @@ export default function Proyectos() {
 
       <div className="page-padding" style={{ flex: 1, overflow: 'auto' }}>
         {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a39e98' }}>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--app-text-subtle)' }}>
             <p style={{ fontSize: 15 }}>No hay proyectos{search ? ' que coincidan' : '. Crea el primero'}</p>
           </div>
         ) : (
@@ -123,7 +123,7 @@ export default function Proyectos() {
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 10, height: 10, borderRadius: '50%', background: project.color, flexShrink: 0, marginTop: 2 }} />
-                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'rgba(0,0,0,0.95)', letterSpacing: '-0.2px' }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--app-text)', letterSpacing: '-0.2px' }}>
                         {project.name}
                       </h3>
                     </div>
@@ -133,15 +133,15 @@ export default function Proyectos() {
                     </div>
                   </div>
                   {project.description && (
-                    <p style={{ fontSize: 13, color: '#615d59', lineHeight: 1.5, marginBottom: 12 }}>{project.description}</p>
+                    <p style={{ fontSize: 13, color: 'var(--app-text-muted)', lineHeight: 1.5, marginBottom: 12 }}>{project.description}</p>
                   )}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <Badge label={s.label} bg={s.bg} text={s.text} size="sm" />
                     {project.deadline && (
-                      <span style={{ fontSize: 11, color: '#a39e98' }}>hasta {formatDate(project.deadline)}</span>
+                      <span style={{ fontSize: 11, color: 'var(--app-text-subtle)' }}>hasta {formatDate(project.deadline)}</span>
                     )}
                     {repo && (
-                      <span style={{ fontSize: 11, color: '#0075de', background: '#f2f9ff', padding: '1px 6px', borderRadius: 9999, fontWeight: 500 }}>
+                      <span style={{ fontSize: 11, color: '#0075de', background: 'rgba(0,117,222,0.12)', padding: '1px 6px', borderRadius: 9999, fontWeight: 500 }}>
                         {repo.name}
                       </span>
                     )}

@@ -16,7 +16,7 @@ export default function SearchBar({ value, onChange, placeholder = 'Buscar...' }
         style={{
           position: 'absolute',
           left: 10,
-          color: '#a39e98',
+          color: 'var(--app-text-subtle)',
           pointerEvents: 'none',
         }}
       />

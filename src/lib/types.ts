@@ -20,7 +20,7 @@ export interface Repo {
   id: string;
   name: string;
   description: string;
-  language: string;
+  stack: string[];
   status: RepoStatus;
   url: string;
   lastUpdated: string;

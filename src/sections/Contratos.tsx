@@ -113,7 +113,7 @@ export default function Contratos() {
 
       <div className="page-padding" style={{ flex: 1, overflow: 'auto' }}>
         {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a39e98' }}>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--app-text-subtle)' }}>
             <p style={{ fontSize: 15 }}>No hay contratos{search ? ' que coincidan' : '. Crea el primero'}</p>
           </div>
         ) : (
@@ -129,26 +129,26 @@ export default function Contratos() {
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                        <h3 style={{ fontSize: 15, fontWeight: 700, color: 'rgba(0,0,0,0.95)' }}>
+                        <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--app-text)' }}>
                           {contract.clientName}
                         </h3>
                         <Badge label={s.label} bg={s.bg} text={s.text} size="sm" />
                       </div>
                       {contract.title && (
-                        <p style={{ fontSize: 13, color: '#615d59', marginBottom: 8 }}>{contract.title}</p>
+                        <p style={{ fontSize: 13, color: 'var(--app-text-muted)', marginBottom: 8 }}>{contract.title}</p>
                       )}
                       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 16, fontWeight: 700, color: 'rgba(0,0,0,0.9)', letterSpacing: '-0.3px' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 16, fontWeight: 700, color: 'var(--app-text)', letterSpacing: '-0.3px' }}>
                           <DollarSign size={14} style={{ color: '#1aae39' }} />
                           {contract.value.toLocaleString('es-ES')} {contract.currency}
                         </span>
                         {contract.startDate && (
-                          <span style={{ fontSize: 12, color: '#a39e98' }}>
+                          <span style={{ fontSize: 12, color: 'var(--app-text-subtle)' }}>
                             {formatDate(contract.startDate)} → {contract.endDate ? formatDate(contract.endDate) : 'indefinido'}
                           </span>
                         )}
                         {contract.notes && (
-                          <span style={{ fontSize: 12, color: '#615d59' }}>{contract.notes}</span>
+                          <span style={{ fontSize: 12, color: 'var(--app-text-muted)' }}>{contract.notes}</span>
                         )}
                       </div>
                     </div>

@@ -26,11 +26,11 @@ export default function Modal({ title, onClose, children }: ModalProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '20px 24px 16px',
-            borderBottom: '1px solid rgba(0,0,0,0.08)',
+            padding: '18px 22px 14px',
+            borderBottom: '1px solid var(--app-border)',
           }}
         >
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: 'rgba(0,0,0,0.95)', letterSpacing: '-0.2px' }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--app-text)', letterSpacing: '-0.2px' }}>
             {title}
           </h2>
           <button

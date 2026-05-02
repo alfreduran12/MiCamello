@@ -227,21 +227,21 @@ export default function Usuarios() {
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px' }}>
         {!isAdmin ? (
-          <div style={{ padding: '48px 0', textAlign: 'center', color: '#615d59', fontSize: 14 }}>
+          <div style={{ padding: '48px 0', textAlign: 'center', color: 'var(--app-text-muted)', fontSize: 14 }}>
             <Shield size={32} style={{ margin: '0 auto 12px', opacity: 0.4, display: 'block' }} />
             Solo los administradores pueden ver la lista de usuarios.
           </div>
         ) : loading ? (
-          <div style={{ padding: '48px 0', textAlign: 'center', color: '#a39e98', fontSize: 14 }}>Cargando...</div>
+          <div style={{ padding: '48px 0', textAlign: 'center', color: 'var(--app-text-subtle)', fontSize: 14 }}>Cargando...</div>
         ) : (
           <div className="notion-card" style={{ overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+                <tr style={{ borderBottom: '1px solid var(--app-border)' }}>
                   {['Usuario', 'Rol', 'Creado', ''].map(h => (
                     <th key={h} style={{
                       padding: '10px 14px', textAlign: 'left', fontSize: 12,
-                      fontWeight: 600, color: '#615d59', letterSpacing: '0.05px',
+                      fontWeight: 600, color: 'var(--app-text-muted)', letterSpacing: '0.05px',
                     }}>{h}</th>
                   ))}
                 </tr>
@@ -254,7 +254,7 @@ export default function Usuarios() {
                     <tr
                       key={u.id}
                       style={{
-                        borderBottom: '1px solid rgba(0,0,0,0.05)',
+                        borderBottom: '1px solid var(--app-border)',
                         background: isMe ? 'rgba(0,117,222,0.03)' : undefined,
                       }}
                     >
@@ -262,14 +262,14 @@ export default function Usuarios() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <div style={{
                             width: 28, height: 28, borderRadius: '50%',
-                            background: isMe ? '#0075de' : '#e8e6e3',
+                            background: isMe ? 'var(--app-accent)' : 'var(--app-surface-hover)',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             flexShrink: 0,
                           }}>
-                            <User size={14} color={isMe ? 'white' : '#615d59'} />
+                            <User size={14} color={isMe ? 'var(--app-accent-fg)' : 'var(--app-text-muted)'} />
                           </div>
                           <div>
-                            <span style={{ fontSize: 14, fontWeight: 500, color: 'rgba(0,0,0,0.9)' }}>
+                            <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--app-text)' }}>
                               {u.username}
                             </span>
                             {isMe && (
@@ -281,21 +281,21 @@ export default function Usuarios() {
                       <td style={{ padding: '12px 14px' }}>
                         <Badge label={badge.label} text={badge.text} bg={badge.bg} />
                       </td>
-                      <td style={{ padding: '12px 14px', fontSize: 13, color: '#615d59' }}>
+                      <td style={{ padding: '12px 14px', fontSize: 13, color: 'var(--app-text-muted)' }}>
                         {new Date(u.createdAt).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </td>
                       <td style={{ padding: '12px 14px' }}>
                         <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
                           <button
                             onClick={() => { setEditing(u); setModal('edit'); }}
-                            style={{ padding: '5px 8px', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 4, background: 'white', cursor: 'pointer', color: '#615d59', display: 'flex', alignItems: 'center' }}
+                            style={{ padding: '5px 8px', border: '1px solid var(--app-border)', borderRadius: 4, background: 'var(--app-surface)', cursor: 'pointer', color: 'var(--app-text-muted)', display: 'flex', alignItems: 'center' }}
                           >
                             <Pencil size={13} />
                           </button>
                           {!isMe && (
                             <button
                               onClick={() => handleDelete(u)}
-                              style={{ padding: '5px 8px', border: '1px solid rgba(220,38,38,0.2)', borderRadius: 4, background: 'white', cursor: 'pointer', color: '#dc2626', display: 'flex', alignItems: 'center' }}
+                              style={{ padding: '5px 8px', border: '1px solid rgba(220,38,38,0.2)', borderRadius: 4, background: 'var(--app-surface)', cursor: 'pointer', color: '#dc2626', display: 'flex', alignItems: 'center' }}
                             >
                               <Trash2 size={13} />
                             </button>
